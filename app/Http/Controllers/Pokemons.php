@@ -10,6 +10,8 @@ use App\Type;
 use App\Http\Requests\PokemonRequest;
 
 use App\Http\Resources\PokemonResource;
+use App\Http\Requests\PokemonStoreRequest;
+use App\Http\Requests\PokemonDestroyRequest;
 
 class Pokemons extends Controller
 {
@@ -39,7 +41,7 @@ class Pokemons extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PokemonRequest $request)
+    public function store(PokemonStoreRequest $request)
     {
         $data = $request->only(["name", "generation_id"]);
 
@@ -69,7 +71,7 @@ class Pokemons extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PokemonRequest $request, Pokemon $pokemon)
+    public function update(PokemonStoreRequest $request, Pokemon $pokemon)
     {
         // get the request data
         $data = $request->only(["name", "generation_id"]);
@@ -90,7 +92,7 @@ class Pokemons extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pokemon $pokemon)
+    public function destroy(PokemonDestroyRequest $request, Pokemon $pokemon)
     {
         $pokemon->delete();
         return response(null, 204);

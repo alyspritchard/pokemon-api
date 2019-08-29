@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Generation;
 use App\Http\Resources\GenerationResource;
 use App\Http\Requests\GenerationRequest;
+use App\Http\Requests\GenerationStoreRequest;
+use App\Http\Requests\GenerationDestroyRequest;
 
 class Generations extends Controller
 {
@@ -25,7 +27,7 @@ class Generations extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GenerationRequest $request)
+    public function store(GenerationStoreRequest $request)
     {
         $data = $request->only(["name", "total_pokemon"]);
 
@@ -52,7 +54,7 @@ class Generations extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GenerationRequest $request, Generation $generation)
+    public function update(GenerationStoreRequest $request, Generation $generation)
     {
         // get the request data
         $data = $request->only(["name", "total_pokemon"]);
@@ -70,7 +72,7 @@ class Generations extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     public function destroy(Generation $generation)
+     public function destroy(GenerationDestroyRequest $request, Generation $generation)
     {
         $generation->delete();
         return response(null, 204);

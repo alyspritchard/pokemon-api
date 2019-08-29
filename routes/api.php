@@ -20,20 +20,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // pokemon routes
 $router->group(["prefix" => "pokemons"], function ($router) {
     $router->get("/", "Pokemons@index");
-    $router->post("/", "Pokemons@store");
+    $router->post("/", "Pokemons@store")->middleware('auth:api');
 
     $router->get("{pokemon}", "Pokemons@show");
-    $router->put("{pokemon}", "Pokemons@update");
-    $router->delete("{pokemon}", "Pokemons@destroy");
+    $router->put("{pokemon}", "Pokemons@update")->middleware('auth:api');
+    $router->delete("{pokemon}", "Pokemons@destroy")->middleware('auth:api');
 });
 
 // generation routes
 $router->group(["prefix" => "generations"], function ($router) {
-    $router->post("/", "Generations@store");
+    $router->post("/", "Generations@store")->middleware('auth:api');
     $router->get("/", "Generations@index");
 
-    $router->put("{generation}", "Generations@update");
-    $router->delete("{generation}", "Generations@destroy");
+    $router->put("{generation}", "Generations@update")->middleware('auth:api');
+    $router->delete("{generation}", "Generations@destroy")->middleware('auth:api');
 
     $router->get("{generation}/pokemons", "Pokemons@generationIndex");
 });
