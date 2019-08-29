@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Pokemon;
+use App\Generation;
+use App\Type;
+
+use App\Http\Requests\PokemonRequest;
+
+use App\Http\Resources\PokemonResource;
 
 class Pokemons extends Controller
 {
@@ -13,7 +20,17 @@ class Pokemons extends Controller
      */
     public function index()
     {
-        //
+        return PokemonResource::collection(Pokemon::all());
+    }
+
+    public function generationIndex(Generation $generation)
+    {
+        return $generation->pokemons;
+    }
+
+    public function typeIndex(Type $type)
+    {
+        return $type->pokemons;
     }
 
     /**
@@ -22,9 +39,16 @@ class Pokemons extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PokemonRequest $request)
     {
-        //
+        $data = $request->only(["name", "generation_id"]);
+
+        $pokemon = Pokemon::create($data);
+
+        $types = Type::parse($request->get("types"));
+        $pokemon->setTypes($types);
+
+        return new PokemonResource($pokemon);
     }
 
     /**
@@ -33,9 +57,9 @@ class Pokemons extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Pokemon $pokemon)
     {
-        //
+        return new PokemonResource($pokemon);
     }
 
     /**
@@ -45,9 +69,19 @@ class Pokemons extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PokemonRequest $request, Pokemon $pokemon)
     {
-        //
+        // get the request data
+        $data = $request->only(["name", "generation_id"]);
+
+        // update the pokemon
+        $pokemon->fill($data)->save();
+
+        $types = Type::parse($request->get("types"));
+        $pokemon->setTypes($types);
+
+        // return the resource
+        return new PokemonResource($pokemon);
     }
 
     /**
@@ -56,8 +90,9 @@ class Pokemons extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Pokemon $pokemon)
     {
-        //
+        $pokemon->delete();
+        return response(null, 204);
     }
 }

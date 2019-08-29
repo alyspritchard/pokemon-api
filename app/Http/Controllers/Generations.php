@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Generation;
 
 class Generations extends Controller
 {
@@ -24,7 +25,11 @@ class Generations extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(["name", "total_pokemon"]);
+
+        $generation = Generation::create($data);
+
+        return response($generation, 201);
     }
 
     /**
@@ -45,9 +50,16 @@ class Generations extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Generation $generation)
     {
-        //
+        // get the request data
+        $data = $request->only(["name", "total_pokemon"]);
+
+        // update the generation
+        $generation->fill($data)->save();
+
+        // return the resource
+        return $generation;
     }
 
     /**
@@ -56,8 +68,9 @@ class Generations extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+     public function destroy(Generation $generation)
     {
-        //
+        $generation->delete();
+        return response(null, 204);
     }
 }

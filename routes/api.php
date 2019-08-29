@@ -34,10 +34,10 @@ $router->group(["prefix" => "generations"], function ($router) {
     $router->put("{generation}", "Generations@update");
     $router->delete("{generation}", "Generations@destroy");
 
-    $router->delete("{generation}/pokemons", "Pokemons@generationIndex");
+    $router->get("{generation}/pokemons", "Pokemons@generationIndex");
 });
 
 // type routes
 $router->group(["prefix" => "types"], function ($router) {
-    $router->delete("{type}/pokemons", "Pokemons@typeIndex");
+    $router->get("{type}/pokemons", "Pokemons@typeIndex");
 });
