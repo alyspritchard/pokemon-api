@@ -27,12 +27,12 @@ class Pokemons extends Controller
 
     public function generationIndex(Generation $generation)
     {
-        return $generation->pokemons;
+        return PokemonResource::collection($generation->pokemons);
     }
 
     public function typeIndex(Type $type)
     {
-        return $type->pokemons;
+        return PokemonResource::collection($type->pokemons);
     }
 
     /**
