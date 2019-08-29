@@ -17,8 +17,8 @@ class PokemonResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "generation_id" => $this->generation_id,
-            "types" => $this->types->pluck("name"), 
+            "generation_id" => $this->generation()->pluck("name")->implode('generation_id'),
+            "types" => $this->types->pluck("name")->implode(', ', 'types'), 
         ];
     }
 }
