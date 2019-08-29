@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Generation;
+use App\Http\Resources\GenerationResource;
+use App\Http\Requests\GenerationRequest;
 
 class Generations extends Controller
 {
@@ -14,7 +16,7 @@ class Generations extends Controller
      */
     public function index()
     {
-        //
+        return GenerationResource::collection(Generation::all());
     }
 
     /**
@@ -23,7 +25,7 @@ class Generations extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GenerationRequest $request)
     {
         $data = $request->only(["name", "total_pokemon"]);
 
@@ -50,7 +52,7 @@ class Generations extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Generation $generation)
+    public function update(GenerationRequest $request, Generation $generation)
     {
         // get the request data
         $data = $request->only(["name", "total_pokemon"]);

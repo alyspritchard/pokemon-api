@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\TypeResource;
+use App\Type;
 
 class Types extends Controller
 {
@@ -13,7 +15,7 @@ class Types extends Controller
      */
     public function index()
     {
-        //
+        return TypeResource::collection(Type::all());
     }
 
     /**

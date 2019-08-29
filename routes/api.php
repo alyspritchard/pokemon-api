@@ -30,6 +30,7 @@ $router->group(["prefix" => "pokemons"], function ($router) {
 // generation routes
 $router->group(["prefix" => "generations"], function ($router) {
     $router->post("/", "Generations@store");
+    $router->get("/", "Generations@index");
 
     $router->put("{generation}", "Generations@update");
     $router->delete("{generation}", "Generations@destroy");
@@ -40,4 +41,5 @@ $router->group(["prefix" => "generations"], function ($router) {
 // type routes
 $router->group(["prefix" => "types"], function ($router) {
     $router->get("{type}/pokemons", "Pokemons@typeIndex");
+    $router->get("/", "Types@index");
 });
